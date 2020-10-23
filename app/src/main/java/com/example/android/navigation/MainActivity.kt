@@ -19,6 +19,8 @@ package com.example.android.navigation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -26,5 +28,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         @Suppress("UNUSED_VARIABLE")
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+
+        //  Finding the controller from the ID of our NavHostFragment
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        // Link the NavController to our ActionBar.
+        NavigationUI.setupActionBarWithNavController(this, navController)
+    }
+
+    /**
+     * Override the onSupportNavigateUp method from the activity and call navigateUp in nav controller.
+        Finally, we need to have the Activity handle the navigateUp action from our Activity.
+        To do this we override onSupportNavigateUp, find the nav controller, and then we call navigateUp().
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return navController.navigateUp()
     }
 }
